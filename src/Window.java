@@ -7,6 +7,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JEditorPane;
 import java.awt.Panel;
+import javax.swing.JButton;
 
 public class Window extends JFrame {
 
@@ -39,6 +40,21 @@ public class Window extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		
+		JButton btnCriar = new JButton("Criar");
+		contentPane.add(btnCriar, BorderLayout.WEST);
+		
+		JButton btnVisualizar = new JButton("Visualizar");
+		contentPane.add(btnVisualizar, BorderLayout.CENTER);
+		
+		JButton btnEditar = new JButton("editar");
+		contentPane.add(btnEditar, BorderLayout.EAST);
+		
+		JButton btnImportar = new JButton("Importar");
+		contentPane.add(btnImportar, BorderLayout.NORTH);
+		
+		JButton btnExit = new JButton("Exit");
+		contentPane.add(btnExit, BorderLayout.SOUTH);
 	}
 
 }
