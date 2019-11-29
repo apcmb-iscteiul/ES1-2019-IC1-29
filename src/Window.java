@@ -14,8 +14,8 @@ public class Window extends JFrame {
 	private JPanel contentPane;
 
 	/**
-	 * Launch the application.
-	 */
+	 * Launch the application.  TESTE
+	 */ 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
