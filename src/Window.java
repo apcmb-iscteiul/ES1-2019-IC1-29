@@ -1,12 +1,18 @@
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
-import javax.swing.JEditorPane;
-import java.awt.Panel;
+
+//import javax.swing.JTextField;
+//import javax.swing.JEditorPane;
+//import java.awt.Panel;
+import java.io.File;
+import java.io.IOException;
+
 import javax.swing.JButton;
 
 public class Window extends JFrame {
@@ -17,6 +23,7 @@ public class Window extends JFrame {
 	 * Launch the application.  TestesDeComittsNovosBranchMais um teste
 	 */ 
 	public static void main(String[] args) {
+		File excelFile= new File("Long-Method.xlsx");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -53,8 +60,25 @@ public class Window extends JFrame {
 		JButton btnImportar = new JButton("Importar");
 		contentPane.add(btnImportar, BorderLayout.NORTH);
 		
+		//evento para btnImportar
+		btnImportar.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String url = "Long-Method.xlsx";
+					ProcessBuilder p = new ProcessBuilder();
+					p.command("cmd.exe","/c", url);
+					p.start();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		}
+				);
+		
+		
 		JButton btnExit = new JButton("Exit");
 		contentPane.add(btnExit, BorderLayout.SOUTH);
 	}
+	
 
 }
