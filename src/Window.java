@@ -47,7 +47,7 @@ public class Window extends JFrame {
 		JButton btnVisualizar = new JButton("Visualizar");
 		contentPane.add(btnVisualizar, BorderLayout.CENTER);
 		
-		JButton btnEditar = new JButton("editar");
+		JButton btnEditar = new JButton("Editar");
 		contentPane.add(btnEditar, BorderLayout.EAST);
 		
 		JButton btnImportar = new JButton("Importar");
