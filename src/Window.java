@@ -11,7 +11,9 @@ import javax.swing.border.EmptyBorder;
 //import javax.swing.JEditorPane;
 //import java.awt.Panel;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import javax.swing.JButton;
 
@@ -47,19 +49,52 @@ public class Window extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		
+
 		JButton btnCriar = new JButton("Criar");
 		contentPane.add(btnCriar, BorderLayout.WEST);
-		
+
 		JButton btnVisualizar = new JButton("Visualizar");
 		contentPane.add(btnVisualizar, BorderLayout.CENTER);
-		
+
 		JButton btnEditar = new JButton("editar");
 		contentPane.add(btnEditar, BorderLayout.EAST);
-		
+
 		JButton btnImportar = new JButton("Importar");
 		contentPane.add(btnImportar, BorderLayout.NORTH);
-		
+
+		//evento para btnCriar
+		btnCriar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent criar) {
+				// guardar caminho para ficheiro de regras a ser criado
+				String caminhoParaFicheiroDeRegras = "rules.config.txt";
+				// String nova linha
+				String novaLinha = "\\r\\n";
+				// criar string com regras predefinidas
+				String regrasPredefinidas = "LOC=80" + System.lineSeparator() + "CYCLO=10";
+				// criar stream de escrita para esse caminho
+				OutputStream streamDeEscrita = null;
+				try {
+					// Criar ou apanhar ficheiro
+					File ficheiroDeRegras = new File(caminhoParaFicheiroDeRegras);
+					// Obter stream de escrita de ficheiros
+					streamDeEscrita = new FileOutputStream(ficheiroDeRegras);
+					// Escrever em cima do ficheiro, limpa o que estava
+					streamDeEscrita.write(regrasPredefinidas.getBytes(), 0, regrasPredefinidas.length());
+				} catch (IOException e) {
+					// retornar erros
+					e.printStackTrace();
+				}finally{
+					try {
+						// fechar buffer de escrita
+						streamDeEscrita.close();
+					} catch (IOException e) {
+						// retornar erros
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+
 		//evento para btnImportar
 		btnImportar.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -74,11 +109,12 @@ public class Window extends JFrame {
 			}
 		}
 				);
-		
-		
+
+
+
 		JButton btnExit = new JButton("Exit");
 		contentPane.add(btnExit, BorderLayout.SOUTH);
 	}
-	
+
 
 }
