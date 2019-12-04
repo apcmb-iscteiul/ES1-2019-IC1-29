@@ -2,24 +2,26 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
+import java.io.BufferedWriter;
 //import javax.swing.JTextField;
 //import javax.swing.JEditorPane;
 //import java.awt.Panel;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Scanner;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 public class Window extends JFrame {
 
 	private JPanel contentPane;
+	private File file;
 
 	/**
 	 * Launch the application.  TestesDeComittsNovosBranchMais um teste
@@ -61,6 +63,32 @@ public class Window extends JFrame {
 
 		JButton btnImportar = new JButton("Importar");
 		contentPane.add(btnImportar, BorderLayout.NORTH);
+		
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent editar) {
+				try {
+					BufferedWriter wr = new BufferedWriter(new FileWriter("rules.config.txt"));
+					Scanner sc = new Scanner(System.in);
+					
+					System.out.println("LOC = ?");
+					String loc = sc.next();
+					
+					System.out.println("CYCLO = ?");
+					String cyclo = sc.next();
+					
+					wr.write("LOC = " + loc + "\n" + "CYCLO = " + cyclo);
+					
+					wr.close();
+					
+				}
+				
+				catch(IOException e ) {
+					System.out.println("O ficheiro tem de ser criado primeiro!");
+					e.printStackTrace();
+				}
+				
+			}
+		});
 
 		//evento para btnCriar
 		btnCriar.addActionListener(new ActionListener() {
@@ -75,9 +103,9 @@ public class Window extends JFrame {
 				OutputStream streamDeEscrita = null;
 				try {
 					// Criar ou apanhar ficheiro
-					File ficheiroDeRegras = new File(caminhoParaFicheiroDeRegras);
+					File file = new File(caminhoParaFicheiroDeRegras);
 					// Obter stream de escrita de ficheiros
-					streamDeEscrita = new FileOutputStream(ficheiroDeRegras);
+					streamDeEscrita = new FileOutputStream(file);
 					// Escrever em cima do ficheiro, limpa o que estava
 					streamDeEscrita.write(regrasPredefinidas.getBytes(), 0, regrasPredefinidas.length());
 				} catch (IOException e) {

@@ -1,2 +1,2 @@
-LOC=80
-CYCLO=10
+LOC = 10
+CYCLO = 20
