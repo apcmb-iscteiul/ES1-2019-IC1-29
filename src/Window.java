@@ -64,6 +64,7 @@ public class Window extends JFrame {
 		JButton btnImportar = new JButton("Importar");
 		contentPane.add(btnImportar, BorderLayout.NORTH);
 		
+		//açao botao editar 
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent editar) {
 				try {
