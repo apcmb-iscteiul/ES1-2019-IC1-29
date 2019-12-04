@@ -7,6 +7,7 @@ import java.io.BufferedWriter;
 //import javax.swing.JEditorPane;
 //import java.awt.Panel;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -144,6 +145,21 @@ public class Window extends JFrame {
 		JButton btnExit = new JButton("Exit");
 		contentPane.add(btnExit, BorderLayout.SOUTH);
 	}
-
+	protected void printFileContents(String filePath) {
+		File file = new File(filePath);
+		Scanner sc=null;
+		try {
+			sc = new Scanner(file);
+			while (sc.hasNextLine()) {
+				String i = sc.nextLine();
+				System.out.println(i);
+			}
+		} 
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} finally {	    	
+			sc.close();
+		}
+	}
 
 }
