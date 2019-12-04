@@ -3,31 +3,23 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
-//import javax.swing.JTextField;
-//import javax.swing.JEditorPane;
-//import java.awt.Panel;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Scanner;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JFileChooser;
 
 public class Window extends JFrame {
 
 	private JPanel contentPane;
-	private File file;
 
-	/**
-	 * Launch the application.  TestesDeComittsNovosBranchMais um teste
-	 */ 
 	public static void main(String[] args) {
-		File excelFile= new File("Long-Method.xlsx");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -64,29 +56,32 @@ public class Window extends JFrame {
 		JButton btnImportar = new JButton("Importar");
 		contentPane.add(btnImportar, BorderLayout.NORTH);
 		
+		JButton btnExit = new JButton("Exit");
+		contentPane.add(btnExit, BorderLayout.SOUTH);
+
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent editar) {
 				try {
 					BufferedWriter wr = new BufferedWriter(new FileWriter("rules.config.txt"));
 					Scanner sc = new Scanner(System.in);
-					
+
 					System.out.println("LOC = ?");
 					String loc = sc.next();
-					
+
 					System.out.println("CYCLO = ?");
 					String cyclo = sc.next();
-					
+
 					wr.write("LOC = " + loc + "\n" + "CYCLO = " + cyclo);
-					
+
 					wr.close();
-					
+
 				}
-				
+
 				catch(IOException e ) {
 					System.out.println("O ficheiro tem de ser criado primeiro!");
 					e.printStackTrace();
 				}
-				
+
 			}
 		});
 
@@ -126,23 +121,37 @@ public class Window extends JFrame {
 		//evento para btnImportar
 		btnImportar.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				try {
-					String url = "Long-Method.xlsx";
-					ProcessBuilder p = new ProcessBuilder();
-					p.command("cmd.exe","/c", url);
-					p.start();
-				} catch (IOException e1) {
-					e1.printStackTrace();
+				JFileChooser jfc=new JFileChooser(".");
+				jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+				int returnValue = jfc.showOpenDialog(null);
+
+				if ( returnValue == JFileChooser.APPROVE_OPTION) {
+					File selectedFile=jfc.getSelectedFile();
+					System.out.println(selectedFile.getAbsolutePath());
+					String url = selectedFile.getAbsolutePath();
+
+					try {	
+						ProcessBuilder p = new ProcessBuilder();
+						p.command("cmd.exe","/c", url);
+						p.start();
+					} catch (IOException e1) {
+						System.out.println("O ficheiro está danificado ou não se encontra no diretório escolhido!");
+					}
 				}
 			}
 		}
 				);
 
 
+		btnExit.addActionListener(new ActionListener() {
 
-		JButton btnExit = new JButton("Exit");
-		contentPane.add(btnExit, BorderLayout.SOUTH);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+
 	}
-
 
 }
