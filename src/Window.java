@@ -13,11 +13,23 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import jxl.Cell;
+import jxl.Sheet;
+import jxl.Workbook;
+
 import javax.swing.JFileChooser;
 
 public class Window extends JFrame {
 
 	private JPanel contentPane;
+	private File file;
+
+	private final String caminho = "Long-Method.xls";
+	private int loc_Referencia;
+	private int cyclo_Referencia;
+	private int atfd_Referencia;
+	private double laa_Referencia;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -30,6 +42,42 @@ public class Window extends JFrame {
 				}
 			}
 		});
+	}
+
+	public int getLoc_Referencia() {
+		return loc_Referencia;
+	}
+
+	public void setLoc_Referencia(int loc_Referencia) {
+		this.loc_Referencia = loc_Referencia;
+	}
+
+	public int getCyclo_Referencia() {
+		return cyclo_Referencia;
+	}
+
+	public void setCyclo_Referencia(int cyclo_Referencia) {
+		this.cyclo_Referencia = cyclo_Referencia;
+	}
+
+	public int getAtfd_Referencia() {
+		return atfd_Referencia;
+	}
+
+	public void setAtfd_Referencia(int atfd_Referencia) {
+		this.atfd_Referencia = atfd_Referencia;
+	}
+
+	public double getLaa_Referencia() {
+		return laa_Referencia;
+	}
+
+	public void setLaa_Referencia(double laa_Referencia) {
+		this.laa_Referencia = laa_Referencia;
+	}
+
+	public String getCaminho() {
+		return caminho;
 	}
 
 	/**
@@ -55,7 +103,7 @@ public class Window extends JFrame {
 
 		JButton btnImportar = new JButton("Importar");
 		contentPane.add(btnImportar, BorderLayout.NORTH);
-		
+
 		JButton btnExit = new JButton("Exit");
 		contentPane.add(btnExit, BorderLayout.SOUTH);
 
@@ -154,4 +202,45 @@ public class Window extends JFrame {
 
 	}
 
+	public void correrExcel() {
+		File inputWorkbook = new File(caminho);
+		Workbook w;
+
+		try {
+			w = Workbook.getWorkbook(inputWorkbook);
+			// Get the first sheet
+			Sheet sheet = w.getSheet(0);
+
+
+			//Algoritmos
+			int dci = 0;
+			int dii = 0;
+			int adci = 0;
+			int adii = 0;
+
+			int dciP = 0;
+			int diiP = 0;
+			int adciP = 0;
+			int adiiP = 0;
+
+
+			for(int i = 1; i < sheet.getRows();i++) {
+				Cell cell = sheet.getCell(4,i);
+
+				if(Integer.valueOf(cell.getContents()) > getLoc_Referencia() && Integer.valueOf(sheet.getCell(5,i).getContents()) > getCyclo_Referencia()) {
+					Cell c = sheet.getCell(9,i);
+					if(Boolean.parseBoolean(c.getContents())){
+						dci++;
+					}
+				}
+			}
+
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+
+
+	}
+
 }
+
