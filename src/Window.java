@@ -184,7 +184,7 @@ public class Window extends JFrame {
 						p.command("cmd.exe","/c", url);
 						p.start();
 					} catch (IOException e1) {
-						System.out.println("O ficheiro está danificado ou não se encontra no diretório escolhido!");
+						System.out.println("O ficheiro estï¿½ danificado ou nï¿½o se encontra no diretï¿½rio escolhido!");
 					}
 				}
 			}
@@ -254,8 +254,15 @@ public class Window extends JFrame {
 					else {
 						adci++;
 					}
+
+					c = sheet.getCell(10,i);
+
+					if(Boolean.parseBoolean(c.getContents())){
+						diiP++;
+					}
 				}
 			}
+
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
