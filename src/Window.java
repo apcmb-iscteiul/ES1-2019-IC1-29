@@ -244,8 +244,18 @@ public class Window extends JFrame {
 						adiiP++;
 					}
 				}
-			}
 
+
+				if( ! (Integer.valueOf(cell.getContents()) > getLoc_Referencia() && Integer.valueOf(sheet.getCell(5,i).getContents()) > getCyclo_Referencia())) {
+					Cell c = sheet.getCell(9,i);
+					if(Boolean.parseBoolean(c.getContents())){
+						dii++;
+					}
+					else {
+						adci++;
+					}
+				}
+			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
