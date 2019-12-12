@@ -235,6 +235,14 @@ public class Window extends JFrame {
 					else {
 						adii++;
 					}
+					c = sheet.getCell(10,i);
+
+					if(Boolean.parseBoolean(c.getContents()) ){
+						dciP++;
+					}
+					else {
+						adiiP++;
+					}
 				}
 			}
 
