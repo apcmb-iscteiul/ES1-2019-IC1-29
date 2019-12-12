@@ -232,6 +232,9 @@ public class Window extends JFrame {
 					if(Boolean.parseBoolean(c.getContents())){
 						dci++;
 					}
+					else {
+						adii++;
+					}
 				}
 			}
 
