@@ -35,7 +35,6 @@ public class Window extends JFrame {
 	 * Launch the application.  TestesDeComittsNovosBranchMais um teste
 	 */ 
 	public static void main(String[] args) {
-		File excelFile= new File("Long-Method.xls");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
