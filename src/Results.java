@@ -1,11 +1,6 @@
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 /**
  * Date: 13-12-2019
@@ -16,10 +11,13 @@ import javax.swing.JTextField;
  */
 public class Results extends JFrame{
 
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * atributos
 	 */
 	private JFrame f;
+	@SuppressWarnings("unused")
 	private Window wind;
 
 	/**
@@ -39,7 +37,6 @@ public class Results extends JFrame{
 		this.f = new JFrame();
 
 		f.setLayout(new GridLayout(2,5));
-		//f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setTitle("Results");
 		JLabel pl = new JLabel("iPlasma");
 		JLabel dcil= new JLabel("DCI = " + dci);
@@ -51,7 +48,7 @@ public class Results extends JFrame{
 		JLabel diilP= new JLabel("DII = " + diiP);
 		JLabel adcilP= new JLabel("ADCI = " + adciP);
 		JLabel adiilP= new JLabel("ADII = " + adiiP);
-		
+
 		f.add(pl);
 		f.add(dcil);
 		f.add(diil);
@@ -63,14 +60,7 @@ public class Results extends JFrame{
 		f.add(adcilP);
 		f.add(adiilP);
 
-		
-		
-
-
 		f.setBounds(400,250,900,100);
-
-
-
 
 	}
 
@@ -78,8 +68,6 @@ public class Results extends JFrame{
 	 * método que "abre" a frame
 	 */
 	public void open() {
-
 		f.setVisible(true);
 	}
-
 }

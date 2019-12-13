@@ -1,6 +1,4 @@
-import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,17 +8,12 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
-
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
-
 
 
 /**
@@ -34,12 +27,14 @@ import jxl.Workbook;
 
 public class Window extends JFrame {
 
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Atributos
 	 */
-	
-	private JPanel contentPane;
-	private File file;
+
+	//private JPanel contentPane;
+	//private File file;
 
 	private String caminho = "Long-Method.xls";
 	private int loc_Referencia;
@@ -54,8 +49,9 @@ public class Window extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					@SuppressWarnings("unused")
 					Window frame = new Window();
-					
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -72,8 +68,8 @@ public class Window extends JFrame {
 
 		f.setLayout(new GridLayout(1,3));
 		f.setTitle("Quality App");
-		
-		
+
+
 		JButton btnCriar = new JButton("Criar");
 		f.add(btnCriar);
 		JButton btnVisualizar = new JButton("Visualizar");
@@ -87,8 +83,6 @@ public class Window extends JFrame {
 		btnVisualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent visualizar) {
 				vis.open();
-
-
 			}
 		});
 
@@ -99,7 +93,7 @@ public class Window extends JFrame {
 				// guardar caminho para ficheiro de regras a ser criado
 				String caminhoParaFicheiroDeRegras = "rules.config.txt";
 				// String nova linha
-				String novaLinha = "\\r\\n";
+				//String novaLinha = "\\r\\n";
 				// criar string com regras predefinidas
 				String regrasPredefinidas = "LOC=80" + System.lineSeparator() + "CYCLO=10" + System.lineSeparator() + "ATFD=4" + System.lineSeparator() + "LAA=0.42";
 				setLoc(80); setCyclo(10); setAtfd(4); setLaa(0.42);
@@ -112,6 +106,7 @@ public class Window extends JFrame {
 					streamDeEscrita = new FileOutputStream(file);
 					// Escrever em cima do ficheiro, limpa o que estava
 					streamDeEscrita.write(regrasPredefinidas.getBytes(), 0, regrasPredefinidas.length());
+					System.out.println("Ficheiro rules.config.txt criado/editado com valores default!");
 				} catch (IOException e) {
 					// retornar erros
 					e.printStackTrace();
@@ -160,14 +155,14 @@ public class Window extends JFrame {
 				System.exit(0);
 			}
 		});
-		
+
 		f.setBounds(100,200,600,100);
-		
+
 		f.setVisible(true);
 
 	}
 
-	
+
 	/**
 	 * Método que escreve no ficheiro rules.config.txt (caminho estático, inalterável) o
 	 * que for passado em argumento
