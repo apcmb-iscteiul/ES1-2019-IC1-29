@@ -1,0 +1,4 @@
+LOC = 10
+CYCLO = 10
+ATFD = 4
+LAA = 0.42

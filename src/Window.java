@@ -1,5 +1,7 @@
-import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
@@ -8,13 +10,12 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
 
 import jxl.Cell;
 import jxl.Sheet;
@@ -25,7 +26,7 @@ public class Window extends JFrame {
 	private JPanel contentPane;
 	private File file;
 
-	private final String caminho = "Long-Method.xls";
+	private String caminho = "Long-Method.xls";
 	private int loc_Referencia;
 	private int cyclo_Referencia;
 	private int atfd_Referencia;
@@ -39,7 +40,7 @@ public class Window extends JFrame {
 			public void run() {
 				try {
 					Window frame = new Window();
-					frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -52,29 +53,20 @@ public class Window extends JFrame {
 	 */
 	public Window() {
 		setLoc(80); setCyclo(10); setAtfd(4); setLaa(0.42);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Quality App");
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
+		JFrame f = new JFrame();
 
+		f.setLayout(new GridLayout(1,3));
+		f.setTitle("Quality App");
+		
+		
 		JButton btnCriar = new JButton("Criar");
-		contentPane.add(btnCriar, BorderLayout.WEST);
-
+		f.add(btnCriar);
 		JButton btnVisualizar = new JButton("Visualizar");
-		contentPane.add(btnVisualizar, BorderLayout.CENTER);
-
-		JButton btnEditar = new JButton("editar");
-		contentPane.add(btnEditar, BorderLayout.EAST);
-
+		f.add(btnVisualizar);
 		JButton btnImportar = new JButton("Importar");
-		contentPane.add(btnImportar, BorderLayout.NORTH);
-
+		f.add(btnImportar);
 		JButton btnExit = new JButton("Exit");
-		contentPane.add(btnExit, BorderLayout.SOUTH);
-
+		f.add(btnExit);
 
 		Visualizar vis = new Visualizar(this);
 		btnVisualizar.addActionListener(new ActionListener() {
@@ -85,33 +77,6 @@ public class Window extends JFrame {
 			}
 		});
 
-		btnEditar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent editar) {
-
-				Scanner sc = new Scanner(System.in);
-
-				System.out.println("LOC = ?");
-				String loc = sc.next();
-				setLoc(Integer.valueOf(loc));
-
-				System.out.println("CYCLO = ?");
-				String cyclo = sc.next();
-				setCyclo(Integer.valueOf(cyclo));
-
-				System.out.println("ATFD = ?");
-				String atfd = sc.next();
-				setAtfd(Integer.valueOf(atfd));
-
-				System.out.println("LAA = ?");
-				String laa = sc.next();
-				setLaa(Double.valueOf(laa));
-
-				writeOnFile("LOC = " + loc + "\n" + "CYCLO = " + cyclo + "\n" + "ATFD = " + atfd + "\n" + "LAA = " +laa);
-
-				sc.close();
-
-			}
-		});
 
 		//evento para btnCriar
 		btnCriar.addActionListener(new ActionListener() {
@@ -159,6 +124,7 @@ public class Window extends JFrame {
 					File selectedFile=jfc.getSelectedFile();
 					System.out.println(selectedFile.getAbsolutePath());
 					String url = selectedFile.getAbsolutePath();
+					setCaminho(url);
 
 					try {	
 						ProcessBuilder p = new ProcessBuilder();
@@ -179,6 +145,10 @@ public class Window extends JFrame {
 				System.exit(0);
 			}
 		});
+		
+		f.setBounds(100,200,600,100);
+		
+		f.setVisible(true);
 
 	}
 
@@ -239,15 +209,24 @@ public class Window extends JFrame {
 		return laa_Referencia;
 	}
 
+	public void setCaminho(String url) {
+		this.caminho = url;
+	}
+
 	public void correrExcel() {
 		File inputWorkbook = new File(caminho);
 		Workbook w;
 
 		try {
 			w = Workbook.getWorkbook(inputWorkbook);
-			// Get the first sheet
 			Sheet sheet = w.getSheet(0);
 
+
+			//posicoes no Excel
+			int cycloPos = 0;
+			int locPos = 0;
+			int iPlasmaPos = 0;
+			int pmdPos = 0;
 
 			//Algoritmos
 			int dci = 0;
@@ -261,11 +240,27 @@ public class Window extends JFrame {
 			int adiiP = 0;
 
 
-			for(int i = 1; i < sheet.getRows();i++) {
-				Cell cell = sheet.getCell(4,i);
+			for(int j = 0; j< sheet.getColumns();j++) {
+				if(sheet.getCell(j,0).getContents().equals("LOC")){
+					locPos = j;
+				}
+				else if(sheet.getCell(j,0).getContents().equals("CYCLO")){
+					cycloPos = j;
+				}
+				else if(sheet.getCell(j,0).getContents().equals("iPlasma")){
+					iPlasmaPos = j;
+				}
+				else if(sheet.getCell(j,0).getContents().equals("PMD")){
+					pmdPos = j;
+				}
+			}
 
-				if(Integer.valueOf(cell.getContents()) > getLoc_Referencia() && Integer.valueOf(sheet.getCell(5,i).getContents()) > getCyclo_Referencia()) {
-					Cell c = sheet.getCell(9,i);
+
+
+			for(int k = 1; k < sheet.getRows();k++) {
+				Cell cell = sheet.getCell(locPos,k);
+				if(Integer.valueOf(cell.getContents()) > getLoc_Referencia() && Integer.valueOf(sheet.getCell(cycloPos,k).getContents()) > getCyclo_Referencia()) {
+					Cell c = sheet.getCell(iPlasmaPos,k);
 					if(Boolean.parseBoolean(c.getContents())){
 						dci++;
 					}
@@ -274,7 +269,7 @@ public class Window extends JFrame {
 
 					}
 
-					c = sheet.getCell(10,i);
+					c = sheet.getCell(pmdPos,k);
 
 					if(Boolean.parseBoolean(c.getContents()) ){
 						dciP++;
@@ -284,9 +279,8 @@ public class Window extends JFrame {
 					}
 				}
 
-
-				if( ! (Integer.valueOf(cell.getContents()) > getLoc_Referencia() && Integer.valueOf(sheet.getCell(5,i).getContents()) > getCyclo_Referencia())) {
-					Cell c = sheet.getCell(9,i);
+				if( ! (Integer.valueOf(cell.getContents()) > getLoc_Referencia() && Integer.valueOf(sheet.getCell(cycloPos,k).getContents()) > getCyclo_Referencia())) {
+					Cell c = sheet.getCell(iPlasmaPos,k);
 					if(Boolean.parseBoolean(c.getContents())){
 						dii++;
 					}
@@ -294,7 +288,7 @@ public class Window extends JFrame {
 						adci++;
 					}
 
-					c = sheet.getCell(10,i);
+					c = sheet.getCell(pmdPos,k);
 
 					if(Boolean.parseBoolean(c.getContents())){
 						diiP++;
@@ -303,6 +297,7 @@ public class Window extends JFrame {
 						adciP++;
 					}
 				}
+
 			}
 
 			new Results(this, dci, dii, adci, adii, dciP, diiP, adciP, adiiP).open();
