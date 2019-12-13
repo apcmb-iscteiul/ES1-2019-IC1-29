@@ -7,11 +7,33 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+/**
+ * Date: 13-12-2019
+ * Projecto de ES1
+ * @author Pedro Santos, João Atalho, Guilherme Mendonça, Pedro Brites, José Ramalho,
+ * António César, Pedro Nogueira
+ *
+ */
 public class Results extends JFrame{
 
+	/**
+	 * atributos
+	 */
 	private JFrame f;
 	private Window wind;
 
+	/**
+	 * Construtor inicializado com os parametros passados como argumento
+	 * @param wind
+	 * @param dci
+	 * @param dii
+	 * @param adci
+	 * @param adii
+	 * @param dciP
+	 * @param diiP
+	 * @param adciP
+	 * @param adiiP
+	 */
 	public Results(Window wind, int dci, int dii, int adci, int adii, int dciP, int diiP, int adciP, int adiiP) {
 		this.wind = wind;
 		this.f = new JFrame();
@@ -52,6 +74,9 @@ public class Results extends JFrame{
 
 	}
 
+	/**
+	 * método que "abre" a frame
+	 */
 	public void open() {
 
 		f.setVisible(true);

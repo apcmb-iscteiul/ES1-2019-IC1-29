@@ -9,12 +9,27 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * Date: 13-12-2019
+ * Projecto de ES1
+ * @author Pedro Santos, João Atalho, Guilherme Mendonça, Pedro Brites, José Ramalho,
+ * António César, Pedro Nogueira
+ *
+ */
+
 public class Visualizar extends JFrame {
 
 	
+	/**
+	 * atributos
+	 */
 	private Window wind;
 	JFrame f;
 	
+	/**
+	 * Construtor
+	 * @param wind
+	 */
 	public Visualizar(Window wind) {
 		this.wind = wind;
 		this.f = new JFrame();
@@ -95,6 +110,9 @@ public class Visualizar extends JFrame {
 
 	}
 	
+	/**
+	 * Método que "abre" a frame
+	 */
 	public void open() {
 		
 		f.setVisible(true);

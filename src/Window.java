@@ -21,8 +21,23 @@ import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 
+
+
+/**
+ * Date: 13-12-2019
+ * Projecto de ES1
+ * @author Pedro Santos, João Atalho, Guilherme Mendonça, Pedro Brites, José Ramalho,
+ * António César, Pedro Nogueira
+ *
+ */
+
+
 public class Window extends JFrame {
 
+	/**
+	 * Atributos
+	 */
+	
 	private JPanel contentPane;
 	private File file;
 
@@ -33,7 +48,7 @@ public class Window extends JFrame {
 	private double laa_Referencia;
 
 	/**
-	 * Launch the application.  TestesDeComittsNovosBranchMais um teste
+	 * Main que corre a app
 	 */ 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -49,7 +64,7 @@ public class Window extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Construtor, sem argumentos
 	 */
 	public Window() {
 		setLoc(80); setCyclo(10); setAtfd(4); setLaa(0.42);
@@ -152,6 +167,12 @@ public class Window extends JFrame {
 
 	}
 
+	
+	/**
+	 * Método que escreve no ficheiro rules.config.txt (caminho estático, inalterável) o
+	 * que for passado em argumento
+	 * @param txt
+	 */
 	public void writeOnFile(String txt) {
 		try {
 			BufferedWriter wr = new BufferedWriter(new FileWriter("rules.config.txt"));
@@ -164,55 +185,83 @@ public class Window extends JFrame {
 		}
 	}
 
-	public void setLoc(int x) {
-		this.loc_Referencia = x;
+	/**
+	 * setter
+	 * @param loc_Referencia
+	 */
+	public void setLoc(int loc_Referencia) {
+		this.loc_Referencia = loc_Referencia;
 	}
 
+	/**
+	 * setter
+	 * @param cyclo_Referencia
+	 */
 	public void setCyclo(int cyclo_Referencia) {
 		this.cyclo_Referencia = cyclo_Referencia;
 	}
 
+	/**
+	 * setter
+	 * @param atfd_Referencia
+	 */
 	public void setAtfd(int atfd_Referencia) {
 		this.atfd_Referencia = atfd_Referencia;
 	}
 
+	/**
+	 * setter
+	 * @param laa_Referencia
+	 */
 	public void setLaa(double laa_Referencia) {
 		this.laa_Referencia = laa_Referencia;
 	}
 
-
-	public JPanel getContentPane() {
-		return contentPane;
-	}
-
-	public File getFile() {
-		return file;
-	}
-
-	public String getCaminho() {
-		return caminho;
-	}
-
+	/**
+	 * getter
+	 * @return
+	 */
 	public int getLoc_Referencia() {
 		return loc_Referencia;
 	}
 
+	/**
+	 * getter
+	 * @return
+	 */
 	public int getCyclo_Referencia() {
 		return cyclo_Referencia;
 	}
 
+	/**
+	 * getter
+	 * @return
+	 */
 	public int getAtfd_Referencia() {
 		return atfd_Referencia;
 	}
 
+	/**
+	 * getter
+	 * @return
+	 */
 	public double getLaa_Referencia() {
 		return laa_Referencia;
 	}
 
+	/**
+	 * setter
+	 * @param url
+	 */
 	public void setCaminho(String url) {
 		this.caminho = url;
 	}
 
+	/**
+	 * Método que corre o ficheiro Excel que se encontra no atributo caminho
+	 * onde estão implementados os algoritmos
+	 * 
+	 */
 	public void correrExcel() {
 		File inputWorkbook = new File(caminho);
 		Workbook w;
