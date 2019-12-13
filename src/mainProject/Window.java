@@ -16,7 +16,6 @@ import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 
-
 /**
  * Date: 13-12-2019
  * Projecto de ES1
@@ -350,7 +349,6 @@ public class Window extends JFrame {
 						adciP++;
 					}
 				}
-
 			}
 
 			new Results(this, dci, dii, adci, adii, dciP, diiP, adciP, adiiP).open();
