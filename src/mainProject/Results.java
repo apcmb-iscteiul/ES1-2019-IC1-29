@@ -1,3 +1,4 @@
+package mainProject;
 import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;

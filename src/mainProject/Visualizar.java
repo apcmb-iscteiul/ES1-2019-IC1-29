@@ -1,3 +1,4 @@
+package mainProject;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,8 +22,8 @@ public class Visualizar extends JFrame {
 	/**
 	 * atributos
 	 */
-	@SuppressWarnings("unused")
-	private Window wind;
+	
+	//private Window wind;
 	JFrame f;
 
 	/**
@@ -30,7 +31,7 @@ public class Visualizar extends JFrame {
 	 * @param wind
 	 */
 	public Visualizar(Window wind) {
-		this.wind = wind;
+	//	this.wind = wind;
 		this.f = new JFrame();
 
 		f.setLayout(new GridLayout(1,2));
@@ -76,6 +77,8 @@ public class Visualizar extends JFrame {
 				wind.setCyclo( Integer.parseInt(cycloT.getText()));
 				wind.setAtfd( Integer.parseInt(atfdT.getText()));
 				wind.setLaa(Double.parseDouble(laaT.getText()));
+				
+				System.out.println("Regras alteradas!");
 			}
 
 		});

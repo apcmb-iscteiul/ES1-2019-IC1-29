@@ -1,3 +1,4 @@
+package mainProject;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -90,60 +91,14 @@ public class Window extends JFrame {
 		//evento para btnCriar
 		btnCriar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent criar) {
-				// guardar caminho para ficheiro de regras a ser criado
-				String caminhoParaFicheiroDeRegras = "rules.config.txt";
-				// String nova linha
-				//String novaLinha = "\\r\\n";
-				// criar string com regras predefinidas
-				String regrasPredefinidas = "LOC=80" + System.lineSeparator() + "CYCLO=10" + System.lineSeparator() + "ATFD=4" + System.lineSeparator() + "LAA=0.42";
-				setLoc(80); setCyclo(10); setAtfd(4); setLaa(0.42);
-				// criar stream de escrita para esse caminho
-				OutputStream streamDeEscrita = null;
-				try {
-					// Criar ou apanhar ficheiro
-					File file = new File(caminhoParaFicheiroDeRegras);
-					// Obter stream de escrita de ficheiros
-					streamDeEscrita = new FileOutputStream(file);
-					// Escrever em cima do ficheiro, limpa o que estava
-					streamDeEscrita.write(regrasPredefinidas.getBytes(), 0, regrasPredefinidas.length());
-					System.out.println("Ficheiro rules.config.txt criado/editado com valores default!");
-				} catch (IOException e) {
-					// retornar erros
-					e.printStackTrace();
-				}finally{
-					try {
-						// fechar buffer de escrita
-						streamDeEscrita.close();
-					} catch (IOException e) {
-						// retornar erros
-						e.printStackTrace();
-					}
-				}
+				acaoCriar();
 			}
 		});
 
 		//evento para btnImportar
 		btnImportar.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser jfc=new JFileChooser(".");
-				jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-
-				int returnValue = jfc.showOpenDialog(null);
-
-				if ( returnValue == JFileChooser.APPROVE_OPTION) {
-					File selectedFile=jfc.getSelectedFile();
-					System.out.println(selectedFile.getAbsolutePath());
-					String url = selectedFile.getAbsolutePath();
-					setCaminho(url);
-
-					try {	
-						ProcessBuilder p = new ProcessBuilder();
-						p.command("cmd.exe","/c", url);
-						p.start();
-					} catch (IOException e1) {
-						System.out.println("O ficheiro está danificado ou não se encontra no diretório escolhido!");
-					}
-				}
+				acaoImportar();
 			}
 		}
 				);
@@ -162,6 +117,60 @@ public class Window extends JFrame {
 
 	}
 
+
+	public void acaoImportar() {
+		JFileChooser jfc=new JFileChooser(".");
+		jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+		int returnValue = jfc.showOpenDialog(null);
+
+		if ( returnValue == JFileChooser.APPROVE_OPTION) {
+			File selectedFile=jfc.getSelectedFile();
+			System.out.println(selectedFile.getAbsolutePath());
+			String url = selectedFile.getAbsolutePath();
+			setCaminho(url);
+
+			try {	
+				ProcessBuilder p = new ProcessBuilder();
+				p.command("cmd.exe","/c", url);
+				p.start();
+			} catch (IOException e1) {
+				System.out.println("O ficheiro está danificado ou não se encontra no diretório escolhido!");
+			}
+		}		
+	}
+
+	public void acaoCriar() {
+		// guardar caminho para ficheiro de regras a ser criado
+		String caminhoParaFicheiroDeRegras = "rules.config.txt";
+		// String nova linha
+		//String novaLinha = "\\r\\n";
+		// criar string com regras predefinidas
+		String regrasPredefinidas = "LOC=80" + System.lineSeparator() + "CYCLO=10" + System.lineSeparator() + "ATFD=4" + System.lineSeparator() + "LAA=0.42";
+		setLoc(80); setCyclo(10); setAtfd(4); setLaa(0.42);
+		// criar stream de escrita para esse caminho
+		OutputStream streamDeEscrita = null;
+		try {
+			// Criar ou apanhar ficheiro
+			File file = new File(caminhoParaFicheiroDeRegras);
+			// Obter stream de escrita de ficheiros
+			streamDeEscrita = new FileOutputStream(file);
+			// Escrever em cima do ficheiro, limpa o que estava
+			streamDeEscrita.write(regrasPredefinidas.getBytes(), 0, regrasPredefinidas.length());
+			System.out.println("Ficheiro rules.config.txt criado/editado com valores default!");
+		} catch (IOException e) {
+			// retornar erros
+			e.printStackTrace();
+		}finally{
+			try {
+				// fechar buffer de escrita
+				streamDeEscrita.close();
+			} catch (IOException e) {
+				// retornar erros
+				e.printStackTrace();
+			}
+		}		
+	}
 
 	/**
 	 * Método que escreve no ficheiro rules.config.txt (caminho estático, inalterável) o
