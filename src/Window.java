@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Scanner;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -17,8 +18,6 @@ import javax.swing.border.EmptyBorder;
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
-
-import javax.swing.JFileChooser;
 
 public class Window extends JFrame {
 
@@ -31,7 +30,11 @@ public class Window extends JFrame {
 	private int atfd_Referencia;
 	private double laa_Referencia;
 
+	/**
+	 * Launch the application.  TestesDeComittsNovosBranchMais um teste
+	 */ 
 	public static void main(String[] args) {
+		File excelFile= new File("Long-Method.xlsx");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -44,46 +47,11 @@ public class Window extends JFrame {
 		});
 	}
 
-	public int getLoc_Referencia() {
-		return loc_Referencia;
-	}
-
-	public void setLoc_Referencia(int loc_Referencia) {
-		this.loc_Referencia = loc_Referencia;
-	}
-
-	public int getCyclo_Referencia() {
-		return cyclo_Referencia;
-	}
-
-	public void setCyclo_Referencia(int cyclo_Referencia) {
-		this.cyclo_Referencia = cyclo_Referencia;
-	}
-
-	public int getAtfd_Referencia() {
-		return atfd_Referencia;
-	}
-
-	public void setAtfd_Referencia(int atfd_Referencia) {
-		this.atfd_Referencia = atfd_Referencia;
-	}
-
-	public double getLaa_Referencia() {
-		return laa_Referencia;
-	}
-
-	public void setLaa_Referencia(double laa_Referencia) {
-		this.laa_Referencia = laa_Referencia;
-	}
-
-	public String getCaminho() {
-		return caminho;
-	}
-
 	/**
 	 * Create the frame.
 	 */
 	public Window() {
+		setLoc(80); setCyclo(10); setAtfd(4); setLaa(0.42);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Quality App");
 		setBounds(100, 100, 450, 300);
@@ -107,28 +75,40 @@ public class Window extends JFrame {
 		JButton btnExit = new JButton("Exit");
 		contentPane.add(btnExit, BorderLayout.SOUTH);
 
+
+		Visualizar vis = new Visualizar(this);
+		btnVisualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent visualizar) {
+				vis.open();
+
+
+			}
+		});
+
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent editar) {
-				try {
-					BufferedWriter wr = new BufferedWriter(new FileWriter("rules.config.txt"));
-					Scanner sc = new Scanner(System.in);
 
-					System.out.println("LOC = ?");
-					String loc = sc.next();
+				Scanner sc = new Scanner(System.in);
 
-					System.out.println("CYCLO = ?");
-					String cyclo = sc.next();
+				System.out.println("LOC = ?");
+				String loc = sc.next();
+				setLoc(Integer.valueOf(loc));
 
-					wr.write("LOC = " + loc + "\n" + "CYCLO = " + cyclo);
+				System.out.println("CYCLO = ?");
+				String cyclo = sc.next();
+				setCyclo(Integer.valueOf(cyclo));
 
-					wr.close();
+				System.out.println("ATFD = ?");
+				String atfd = sc.next();
+				setAtfd(Integer.valueOf(atfd));
 
-				}
+				System.out.println("LAA = ?");
+				String laa = sc.next();
+				setLaa(Double.valueOf(laa));
 
-				catch(IOException e ) {
-					System.out.println("O ficheiro tem de ser criado primeiro!");
-					e.printStackTrace();
-				}
+				writeOnFile("LOC = " + loc + "\n" + "CYCLO = " + cyclo + "\n" + "ATFD = " + atfd + "\n" + "LAA = " +laa);
+
+				sc.close();
 
 			}
 		});
@@ -141,7 +121,8 @@ public class Window extends JFrame {
 				// String nova linha
 				String novaLinha = "\\r\\n";
 				// criar string com regras predefinidas
-				String regrasPredefinidas = "LOC=80" + System.lineSeparator() + "CYCLO=10";
+				String regrasPredefinidas = "LOC=80" + System.lineSeparator() + "CYCLO=10" + System.lineSeparator() + "ATFD=4" + System.lineSeparator() + "LAA=0.42";
+				setLoc(80); setCyclo(10); setAtfd(4); setLaa(0.42);
 				// criar stream de escrita para esse caminho
 				OutputStream streamDeEscrita = null;
 				try {
@@ -169,28 +150,17 @@ public class Window extends JFrame {
 		//evento para btnImportar
 		btnImportar.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser jfc=new JFileChooser(".");
-				jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-
-				int returnValue = jfc.showOpenDialog(null);
-
-				if ( returnValue == JFileChooser.APPROVE_OPTION) {
-					File selectedFile=jfc.getSelectedFile();
-					System.out.println(selectedFile.getAbsolutePath());
-					String url = selectedFile.getAbsolutePath();
-
-					try {	
-						ProcessBuilder p = new ProcessBuilder();
-						p.command("cmd.exe","/c", url);
-						p.start();
-					} catch (IOException e1) {
-						System.out.println("O ficheiro est� danificado ou n�o se encontra no diret�rio escolhido!");
-					}
+				try {
+					String url = "Long-Method.xls";
+					ProcessBuilder p = new ProcessBuilder();
+					p.command("cmd.exe","/c", url);
+					p.start();
+				} catch (IOException e1) {
+					e1.printStackTrace();
 				}
 			}
 		}
 				);
-
 
 		btnExit.addActionListener(new ActionListener() {
 
@@ -200,6 +170,63 @@ public class Window extends JFrame {
 			}
 		});
 
+	}
+
+	public void writeOnFile(String txt) {
+		try {
+			BufferedWriter wr = new BufferedWriter(new FileWriter("rules.config.txt"));
+			wr.write(txt);
+
+			wr.close();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void setLoc(int x) {
+		this.loc_Referencia = x;
+	}
+
+	public void setCyclo(int cyclo_Referencia) {
+		this.cyclo_Referencia = cyclo_Referencia;
+	}
+
+	public void setAtfd(int atfd_Referencia) {
+		this.atfd_Referencia = atfd_Referencia;
+	}
+
+	public void setLaa(double laa_Referencia) {
+		this.laa_Referencia = laa_Referencia;
+	}
+
+
+	public JPanel getContentPane() {
+		return contentPane;
+	}
+
+	public File getFile() {
+		return file;
+	}
+
+	public String getCaminho() {
+		return caminho;
+	}
+
+	public int getLoc_Referencia() {
+		return loc_Referencia;
+	}
+
+	public int getCyclo_Referencia() {
+		return cyclo_Referencia;
+	}
+
+	public int getAtfd_Referencia() {
+		return atfd_Referencia;
+	}
+
+	public double getLaa_Referencia() {
+		return laa_Referencia;
 	}
 
 	public void correrExcel() {
@@ -234,7 +261,9 @@ public class Window extends JFrame {
 					}
 					else {
 						adii++;
+
 					}
+
 					c = sheet.getCell(10,i);
 
 					if(Boolean.parseBoolean(c.getContents()) ){
@@ -260,15 +289,24 @@ public class Window extends JFrame {
 					if(Boolean.parseBoolean(c.getContents())){
 						diiP++;
 					}
+					else {
+						adciP++;
+					}
 				}
 			}
 
-		}catch(Exception e) {
+			new Results(this, dci, dii, adci, adii, dciP, diiP, adciP, adiiP).open();
+		}
+
+		catch(Exception e) {
 			e.printStackTrace();
 		}
 
 
 	}
 
-}
 
+
+
+
+}
