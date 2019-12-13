@@ -35,7 +35,7 @@ public class Window extends JFrame {
 	 * Launch the application.  TestesDeComittsNovosBranchMais um teste
 	 */ 
 	public static void main(String[] args) {
-		File excelFile= new File("Long-Method.xlsx");
+		File excelFile= new File("Long-Method.xls");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -149,29 +149,29 @@ public class Window extends JFrame {
 		});
 
 		//evento para btnImportar
-				btnImportar.addActionListener(new ActionListener(){
-					public void actionPerformed(ActionEvent e) {
-						JFileChooser jfc=new JFileChooser(".");
-						jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		btnImportar.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser jfc=new JFileChooser(".");
+				jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
-						int returnValue = jfc.showOpenDialog(null);
+				int returnValue = jfc.showOpenDialog(null);
 
-						if ( returnValue == JFileChooser.APPROVE_OPTION) {
-							File selectedFile=jfc.getSelectedFile();
-							System.out.println(selectedFile.getAbsolutePath());
-							String url = selectedFile.getAbsolutePath();
+				if ( returnValue == JFileChooser.APPROVE_OPTION) {
+					File selectedFile=jfc.getSelectedFile();
+					System.out.println(selectedFile.getAbsolutePath());
+					String url = selectedFile.getAbsolutePath();
 
-							try {	
-								ProcessBuilder p = new ProcessBuilder();
-								p.command("cmd.exe","/c", url);
-								p.start();
-							} catch (IOException e1) {
-								System.out.println("O ficheiro está danificado ou não se encontra no diretório escolhido!");
-							}
-						}
+					try {	
+						ProcessBuilder p = new ProcessBuilder();
+						p.command("cmd.exe","/c", url);
+						p.start();
+					} catch (IOException e1) {
+						System.out.println("O ficheiro está danificado ou não se encontra no diretório escolhido!");
 					}
 				}
-						);
+			}
+		}
+				);
 
 		btnExit.addActionListener(new ActionListener() {
 
@@ -312,12 +312,5 @@ public class Window extends JFrame {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-
-
 	}
-
-
-
-
-
 }
