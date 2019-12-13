@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.util.Scanner;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -148,19 +149,29 @@ public class Window extends JFrame {
 		});
 
 		//evento para btnImportar
-		btnImportar.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				try {
-					String url = "Long-Method.xls";
-					ProcessBuilder p = new ProcessBuilder();
-					p.command("cmd.exe","/c", url);
-					p.start();
-				} catch (IOException e1) {
-					e1.printStackTrace();
+				btnImportar.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e) {
+						JFileChooser jfc=new JFileChooser(".");
+						jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+						int returnValue = jfc.showOpenDialog(null);
+
+						if ( returnValue == JFileChooser.APPROVE_OPTION) {
+							File selectedFile=jfc.getSelectedFile();
+							System.out.println(selectedFile.getAbsolutePath());
+							String url = selectedFile.getAbsolutePath();
+
+							try {	
+								ProcessBuilder p = new ProcessBuilder();
+								p.command("cmd.exe","/c", url);
+								p.start();
+							} catch (IOException e1) {
+								System.out.println("O ficheiro está danificado ou não se encontra no diretório escolhido!");
+							}
+						}
+					}
 				}
-			}
-		}
-				);
+						);
 
 		btnExit.addActionListener(new ActionListener() {
 
